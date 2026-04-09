@@ -80,8 +80,8 @@ header{margin-bottom:16px;display:flex;justify-content:space-between;align-items
 .terr-badge{display:inline-block;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:600}.t-none{background:var(--surface-alt);color:var(--text-3)}
 .sel-mode{font-size:13px;color:var(--text-2);padding:5px 12px;border-radius:var(--radius);font-weight:500}
 .search-bar{display:flex;gap:8px;margin-bottom:10px;align-items:center}
-.search-bar input{flex:1;padding:8px 12px;border:1px solid var(--border);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;background:var(--surface);color:var(--text)}
-.search-bar input:focus{border-color:#185FA5}
+.search-bar input{flex:1;padding:12px 16px;border:1.5px solid var(--border);border-radius:var(--radius-lg);font-family:'DM Sans',sans-serif;font-size:15px;outline:none;background:var(--surface);color:var(--text)}
+.search-bar input:focus{border-color:#185FA5;box-shadow:0 0 0 3px rgba(24,95,165,0.1)}
 .search-bar input::placeholder{color:var(--text-3)}
 .search-bar .search-count{font-size:12px;color:var(--text-3);white-space:nowrap}
 .search-bar .search-clear{padding:4px 10px;font-size:12px;cursor:pointer;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface);font-family:'DM Sans',sans-serif;color:var(--text-2)}.search-bar .search-clear:hover{background:var(--surface-alt)}
@@ -132,14 +132,6 @@ header{margin-bottom:16px;display:flex;justify-content:space-between;align-items
 <input type="file" id="importSettingsInput" accept=".json" onchange="importSettings(event)"/>
 </div>
 </header>
-<div class="data-bar" id="dataBar"></div>
-<div class="controls" id="controlsBar"></div>
-<div class="lasso-banner" id="lassoBanner" style="display:none"></div>
-<div id="map"></div>
-<div class="view-bar" id="viewBar"></div>
-<div class="legend" id="legendBar"></div>
-<div class="stats-grid" id="statsGrid"></div>
-<div class="action-row" id="actionRow"></div>
 <div class="search-bar" id="searchBar" style="display:none">
 <input type="text" id="searchInput" placeholder="Search by customer, city, or territory..." oninput="doSearch()"/>
 <span class="search-count" id="searchCount"></span>
@@ -147,6 +139,16 @@ header{margin-bottom:16px;display:flex;justify-content:space-between;align-items
 </div>
 <div class="section-title" id="masterTitle" style="display:none">Master list</div>
 <div class="list-wrap" id="masterList" style="display:none"></div>
+<div class="data-bar" id="dataBar" style="display:none"></div>
+<div class="controls" id="controlsBar"></div>
+<div class="lasso-banner" id="lassoBanner" style="display:none"></div>
+<div id="map"></div>
+<div class="view-bar" id="viewBar"></div>
+<div class="legend" id="legendBar"></div>
+<div class="stats-grid" id="statsGrid"></div>
+<div class="action-row" id="actionRow"></div>
+
+
 <div class="section-title" id="overlayTitle" style="display:none">Overlay list</div>
 <div class="list-wrap" id="overlayList" style="display:none"></div>
 </div>
@@ -382,7 +384,7 @@ function renderList(data,el){let h='<div class="list-row list-header"><span>Cust
 let flt=[...data];
 if(searchTerm)flt=flt.filter(d=>matchesSearch(d));
 if(viewSelected.size>0)flt=flt.filter(d=>{const tId=assignments[acctKey(d)];return tId?viewSelected.has(tId):viewSelected.has('_u');});
-flt.sort((a,b)=>b.totalSales-a.totalSales).forEach(d=>{const t=getTerritory(assignments[acctKey(d)]);const badge=t?'<span class="terr-badge" style="background:'+paletteBg(t.color)+';color:'+t.color+'">'+terrDisplayName(t.name).split(' ').pop()+'</span>':'<span class="terr-badge t-none">\u2014</span>';
+flt.sort((a,b)=>b.totalSales-a.totalSales).forEach(d=>{const t=getTerritory(assignments[acctKey(d)]);const badge=t?'<span class="terr-badge" style="background:'+paletteBg(t.color)+';color:'+t.color+'">'+terrDisplayName(t.name)+'</span>':'<span class="terr-badge t-none">\u2014</span>';
 // Highlight matching text
 let nameHtml=d.customer,cityHtml=d.city;
 if(searchTerm){const re=new RegExp('('+searchTerm.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');
